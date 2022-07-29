@@ -1,4 +1,6 @@
+import 'package:amazon_lite/provider/cart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BagItem extends StatelessWidget {
   final String id;
@@ -14,15 +16,33 @@ class BagItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        margin: EdgeInsets.all(10),
-        child: ListTile(
-          leading: CircleAvatar(
-            child: FittedBox(child: Text("\$${price}")),
-          ),
-          title: Text("${title}"),
-          subtitle: Text("\$${price * quantity}"),
-          trailing: Text("X${quantity}"),
-        ));
+    final cart = Provider.of<Cart>(context, listen: false);
+
+    return Dismissible(
+      direction: DismissDirection.endToStart,
+      onDismissed: (direction) {
+        cart.deleteItem(id);
+      },
+      key: ValueKey(id),
+      background: Container(
+        padding: EdgeInsets.only(right: 20),
+        alignment: Alignment.centerRight,
+        color: Colors.red,
+        child: Icon(
+          Icons.delete,
+          color: Colors.white,
+        ),
+      ),
+      child: Card(
+          margin: EdgeInsets.all(10),
+          child: ListTile(
+            leading: CircleAvatar(
+              child: FittedBox(child: Text("\$${price}")),
+            ),
+            title: Text("${title}"),
+            subtitle: Text("\$${price * quantity}"),
+            trailing: Text("X${quantity}"),
+          )),
+    );
   }
 }
