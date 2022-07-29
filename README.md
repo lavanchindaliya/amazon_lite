@@ -1,6 +1,6 @@
 # amazon_lite
 
-A new Flutter project.
+amazon_lite is an effort to make a clone of amazon shopping application using FLUTTER SDK for android and ios
 
 ## Getting Started
 
