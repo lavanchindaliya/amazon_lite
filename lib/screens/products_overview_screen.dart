@@ -5,6 +5,7 @@ import 'package:amazon_lite/provider/product.dart';
 import 'package:amazon_lite/provider/products.dart';
 import 'package:amazon_lite/screens/cart_screen.dart';
 import 'package:amazon_lite/widgets/Product_item.dart';
+import 'package:amazon_lite/widgets/app_widget.dart';
 import 'package:amazon_lite/widgets/badge.dart';
 import 'package:amazon_lite/widgets/products_grid.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: AppDrawer(),
         appBar: AppBar(
           backgroundColor: Colors.teal[200],
           title: Text(
