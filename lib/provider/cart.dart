@@ -30,6 +30,7 @@ class Cart with ChangeNotifier {
 
   void clear() {
     _items.clear();
+    notifyListeners();
   }
 
   void addItem(double price, String productId, String title) {
