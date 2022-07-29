@@ -1,4 +1,5 @@
 import 'package:amazon_lite/provider/cart.dart';
+import 'package:amazon_lite/provider/orders.dart';
 import 'package:amazon_lite/provider/products.dart';
 import 'package:amazon_lite/screens/cart_screen.dart';
 import 'package:amazon_lite/screens/product_detail_screen.dart';
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => Products()),
-        ChangeNotifierProvider(create: (ctx) => Cart())
+        ChangeNotifierProvider(create: (ctx) => Cart()),
+        ChangeNotifierProvider(create: (ctx) => Orders())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
