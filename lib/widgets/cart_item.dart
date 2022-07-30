@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:amazon_lite/provider/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,8 +22,25 @@ class BagItem extends StatelessWidget {
 
     return Dismissible(
       direction: DismissDirection.endToStart,
-      onDismissed: (direction) {
-        cart.deleteItem(id);
+      confirmDismiss: (direction) {
+        return showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                    title: Text('Are you sure?'),
+                    content:
+                        Text('Do you want to remove element form the cart'),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(true);
+                          },
+                          child: Text('Yes')),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                          child: Text('No'))
+                    ]));
       },
       key: ValueKey(id),
       background: Container(
