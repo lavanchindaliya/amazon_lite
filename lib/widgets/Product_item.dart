@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, file_names
+// ignore_for_file: use_key_in_widget_constructors, file_names, prefer_const_constructors
 
 import 'package:amazon_lite/provider/cart.dart';
 import 'package:amazon_lite/provider/product.dart';
@@ -47,6 +47,17 @@ class ProductItem extends StatelessWidget {
           trailing: IconButton(
               onPressed: () {
                 cart.addItem(product.price, product.id, product.title);
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Item added to cart"),
+                  duration: Duration(seconds: 1),
+                  action: SnackBarAction(
+                    onPressed: () {
+                      cart.removeSingleItem(product.id);
+                    },
+                    label: 'UNDO',
+                  ),
+                ));
               },
               icon: Icon(Icons.shopping_cart_outlined)),
           backgroundColor: Colors.black54,
