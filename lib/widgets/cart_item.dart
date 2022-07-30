@@ -21,6 +21,9 @@ class BagItem extends StatelessWidget {
     final cart = Provider.of<Cart>(context, listen: false);
 
     return Dismissible(
+      onDismissed: (direction) {
+        cart.deleteItem(id);
+      },
       direction: DismissDirection.endToStart,
       confirmDismiss: (direction) {
         return showDialog(
