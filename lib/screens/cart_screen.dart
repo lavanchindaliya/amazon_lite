@@ -32,7 +32,7 @@ class CartScreen extends StatelessWidget {
                 children: [
                   Text("Total"),
                   Spacer(),
-                  Chip(label: Text('\$${cart.total}')),
+                  Chip(label: Text('\$${cart.total.toStringAsFixed(2)}')),
                   TextButton(
                       onPressed: () {
                         Provider.of<Orders>(context, listen: false)
