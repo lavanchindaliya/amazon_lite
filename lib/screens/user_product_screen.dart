@@ -1,4 +1,5 @@
 import 'package:amazon_lite/provider/products.dart';
+import 'package:amazon_lite/screens/addproduct_screen.dart';
 import 'package:amazon_lite/widgets/app_widget.dart';
 import 'package:amazon_lite/widgets/user_item.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,13 @@ class UserProductScreen extends StatelessWidget {
       drawer: AppDrawer(),
       appBar: AppBar(
         title: Text('Your Prodcuts'),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(AddEditProduct.routeName);
+              },
+              icon: Icon(Icons.add))
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(8),

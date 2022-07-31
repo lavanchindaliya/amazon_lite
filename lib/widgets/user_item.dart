@@ -1,3 +1,4 @@
+import 'package:amazon_lite/screens/addproduct_screen.dart';
 import 'package:flutter/material.dart';
 
 class UserItem extends StatelessWidget {
@@ -15,7 +16,11 @@ class UserItem extends StatelessWidget {
         width: 100,
         child: Row(
           children: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(AddEditProduct.routeName);
+                },
+                icon: Icon(Icons.edit)),
             IconButton(
                 onPressed: () {},
                 icon: Icon(

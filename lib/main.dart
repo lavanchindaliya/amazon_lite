@@ -2,6 +2,7 @@ import 'package:amazon_lite/provider/cart.dart';
 import 'package:amazon_lite/provider/orders.dart';
 import 'package:amazon_lite/provider/products.dart';
 import 'package:amazon_lite/screens/cart_screen.dart';
+import 'package:amazon_lite/screens/addproduct_screen.dart';
 import 'package:amazon_lite/screens/order_screen.dart';
 import 'package:amazon_lite/screens/product_detail_screen.dart';
 import 'package:amazon_lite/screens/products_overview_screen.dart';
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
           OrderScreen.routeName: (ctx) => OrderScreen(),
-          UserProductScreen.routeName: (ctx) => UserProductScreen()
+          UserProductScreen.routeName: (ctx) => UserProductScreen(),
+          AddEditProduct.routeName: (ctx) => AddEditProduct()
         },
       ),
     );
