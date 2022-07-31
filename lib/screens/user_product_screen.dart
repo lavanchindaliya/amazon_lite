@@ -1,0 +1,29 @@
+import 'package:amazon_lite/provider/products.dart';
+import 'package:amazon_lite/widgets/app_widget.dart';
+import 'package:amazon_lite/widgets/user_item.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class UserProductScreen extends StatelessWidget {
+  static const routeName = '/userProduct-screen';
+  @override
+  Widget build(BuildContext context) {
+    final prodData = Provider.of<Products>(context);
+
+    return Scaffold(
+      drawer: AppDrawer(),
+      appBar: AppBar(
+        title: Text('Your Prodcuts'),
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(8),
+        child: ListView.builder(
+          itemBuilder: (ctx, i) => UserItem(
+              url: prodData.items[i].imageUrl, title: prodData.items[i].title),
+          itemCount: prodData.items.length,
+        ),
+      ),
+    );
+  }
+}

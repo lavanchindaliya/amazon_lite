@@ -5,6 +5,7 @@ import 'package:amazon_lite/screens/cart_screen.dart';
 import 'package:amazon_lite/screens/order_screen.dart';
 import 'package:amazon_lite/screens/product_detail_screen.dart';
 import 'package:amazon_lite/screens/products_overview_screen.dart';
+import 'package:amazon_lite/screens/user_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
         routes: {
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
-          OrderScreen.routeName: (ctx) => OrderScreen()
+          OrderScreen.routeName: (ctx) => OrderScreen(),
+          UserProductScreen.routeName: (ctx) => UserProductScreen()
         },
       ),
     );
