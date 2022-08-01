@@ -13,12 +13,28 @@ class AddEditProduct extends StatefulWidget {
 class _AddEditProductState extends State<AddEditProduct> {
   final _priceNode = FocusNode();
   final _descriptionNode = FocusNode();
+  final _imageUrlController = TextEditingController();
+  final _imageUrlNode = FocusNode();
+
+  @override
+  void initState() {
+    _imageUrlNode.addListener(_updateImageUrl);
+    super.initState();
+  }
 
   @override
   void dispose() {
     _priceNode.dispose();
     _descriptionNode.dispose();
+    _imageUrlController.dispose();
+    _imageUrlNode.dispose();
     super.dispose();
+  }
+
+  void _updateImageUrl() {
+    if (_imageUrlNode.hasFocus) {
+      setState(() {});
+    }
   }
 
   @override
@@ -53,6 +69,33 @@ class _AddEditProductState extends State<AddEditProduct> {
                 keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(label: Text('Description')),
                 focusNode: _descriptionNode),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 8, right: 10),
+                  height: 100,
+                  width: 100,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey, width: 1)),
+                  child: _imageUrlController.text.isEmpty
+                      ? Text('Enter image Url')
+                      : FittedBox(
+                          fit: BoxFit.cover,
+                          child: Image.network(_imageUrlController.text)),
+                ),
+                Expanded(
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      label: Text("Image URL"),
+                    ),
+                    keyboardType: TextInputType.url,
+                    textInputAction: TextInputAction.done,
+                    controller: _imageUrlController,
+                  ),
+                )
+              ],
+            )
           ],
         ),
       )),
