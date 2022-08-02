@@ -26,7 +26,7 @@ class _AddEditProductState extends State<AddEditProduct> {
   void dispose() {
     _priceNode.dispose();
     _descriptionNode.dispose();
-    _imageUrlController.dispose();
+    //_imageUrlController.dispose();
     _imageUrlNode.dispose();
     super.dispose();
   }
@@ -80,9 +80,10 @@ class _AddEditProductState extends State<AddEditProduct> {
                       border: Border.all(color: Colors.grey, width: 1)),
                   child: _imageUrlController.text.isEmpty
                       ? Text('Enter image Url')
-                      : FittedBox(
+                      : Image(
                           fit: BoxFit.cover,
-                          child: Image.network(_imageUrlController.text)),
+                          image: NetworkImage(_imageUrlController.text),
+                        ),
                 ),
                 Expanded(
                   child: TextFormField(
@@ -92,6 +93,7 @@ class _AddEditProductState extends State<AddEditProduct> {
                     keyboardType: TextInputType.url,
                     textInputAction: TextInputAction.done,
                     controller: _imageUrlController,
+                    focusNode: _imageUrlNode,
                   ),
                 )
               ],
