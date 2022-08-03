@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields
 
 import 'package:amazon_lite/provider/product.dart';
+import 'package:amazon_lite/provider/products.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class AddEditProduct extends StatefulWidget {
   static const routeName = '/addEdit-screen';
@@ -50,11 +52,8 @@ class _AddEditProductState extends State<AddEditProduct> {
     final _isvalidate = _form.currentState!.validate();
     if (!_isvalidate) return;
     _form.currentState!.save();
-    print(_editedProduct.id);
-    print(_editedProduct.title);
-    print(_editedProduct.price);
-    print(_editedProduct.description);
-    print(_editedProduct.imageUrl);
+    Provider.of<Products>(context, listen: false).addProducts(_editedProduct);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -187,11 +186,11 @@ class _AddEditProductState extends State<AddEditProduct> {
                         validator: (value) {
                           if (value!.isEmpty)
                             return 'Please Enter The Image Url';
-                          if (!value.startsWith('htttp') ||
+                          if (!value.startsWith('htttp') &&
                               !value.startsWith('https'))
                             return 'Please Enter a valid Url';
-                          if (!value.endsWith('.pnd') ||
-                              !value.endsWith('.jpg') ||
+                          if (!value.endsWith('.pnd') &&
+                              !value.endsWith('.jpg') &&
                               !value.endsWith('jpeg'))
                             return 'Please Enter a valid Url';
                           return null;
