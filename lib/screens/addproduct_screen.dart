@@ -47,6 +47,8 @@ class _AddEditProductState extends State<AddEditProduct> {
   }
 
   void _saveForm() {
+    final _isvalidate = _form.currentState!.validate();
+    if (!_isvalidate) return;
     _form.currentState!.save();
     print(_editedProduct.id);
     print(_editedProduct.title);
@@ -94,6 +96,10 @@ class _AddEditProductState extends State<AddEditProduct> {
                         imageUrl: _editedProduct.imageUrl,
                         isFavorate: _editedProduct.isFavorate);
                   },
+                  validator: (value) {
+                    if (value!.isEmpty) return 'Please add title';
+                    return null;
+                  },
                 ),
                 TextFormField(
                   decoration: InputDecoration(label: Text('Price')),
@@ -112,6 +118,14 @@ class _AddEditProductState extends State<AddEditProduct> {
                         imageUrl: _editedProduct.imageUrl,
                         isFavorate: _editedProduct.isFavorate);
                   },
+                  validator: (value) {
+                    if (value!.isEmpty) return 'Please Enter the Price';
+                    if (double.tryParse(value) == null)
+                      return 'Please Enter a valid number';
+                    if (double.parse(value) <= 0)
+                      return 'Enter number greater than 0';
+                    return null;
+                  },
                 ),
                 TextFormField(
                   maxLines: 3,
@@ -126,6 +140,11 @@ class _AddEditProductState extends State<AddEditProduct> {
                         id: _editedProduct.id,
                         imageUrl: _editedProduct.imageUrl,
                         isFavorate: _editedProduct.isFavorate);
+                  },
+                  validator: (value) {
+                    if (value!.isEmpty) return 'Please Enter the description';
+                    if (value.length < 10)
+                      return 'Enter atleast 10 characters mr lazy';
                   },
                 ),
                 Row(
@@ -164,6 +183,18 @@ class _AddEditProductState extends State<AddEditProduct> {
                               id: _editedProduct.id,
                               imageUrl: _editedProduct.imageUrl,
                               isFavorate: _editedProduct.isFavorate);
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty)
+                            return 'Please Enter The Image Url';
+                          if (!value.startsWith('htttp') ||
+                              !value.startsWith('https'))
+                            return 'Please Enter a valid Url';
+                          if (!value.endsWith('.pnd') ||
+                              !value.endsWith('.jpg') ||
+                              !value.endsWith('jpeg'))
+                            return 'Please Enter a valid Url';
+                          return null;
                         },
                       ),
                     )
