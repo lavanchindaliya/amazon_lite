@@ -189,7 +189,7 @@ class _AddEditProductState extends State<AddEditProduct> {
                           if (!value.startsWith('htttp') &&
                               !value.startsWith('https'))
                             return 'Please Enter a valid Url';
-                          if (!value.endsWith('.pnd') &&
+                          if (!value.endsWith('.png') &&
                               !value.endsWith('.jpg') &&
                               !value.endsWith('jpeg'))
                             return 'Please Enter a valid Url';
