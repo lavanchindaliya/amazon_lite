@@ -1,5 +1,7 @@
+import 'package:amazon_lite/provider/products.dart';
 import 'package:amazon_lite/screens/addproduct_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UserItem extends StatelessWidget {
   final String id;
@@ -24,7 +26,9 @@ class UserItem extends StatelessWidget {
                 },
                 icon: Icon(Icons.edit)),
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Provider.of<Products>(context, listen: false).removeItem(id);
+                },
                 icon: Icon(
                   Icons.delete,
                   color: Colors.red,
