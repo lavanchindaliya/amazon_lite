@@ -208,7 +208,7 @@ class _AddEditProductState extends State<AddEditProduct> {
                               price: _editedProduct.price,
                               description: _editedProduct.description,
                               id: _editedProduct.id,
-                              imageUrl: _editedProduct.description,
+                              imageUrl: value!,
                               isFavorate: _editedProduct.isFavorate);
                         },
                         validator: (value) {
