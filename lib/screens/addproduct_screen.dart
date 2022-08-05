@@ -27,10 +27,29 @@ class _AddEditProductState extends State<AddEditProduct> {
       imageUrl: '',
       isFavorate: false);
 
+  var _isInit = true;
+  var _inItValues = {'title': '', 'description': '', 'price': ''};
+
   @override
   void initState() {
     _imageUrlNode.addListener(_updateImageUrl);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      final productId = ModalRoute.of(context)!.settings.arguments as String;
+      if (productId != "null") {
+        _editedProduct = Provider.of<Products>(context).findById(productId);
+        _inItValues['title'] = _editedProduct.title;
+        _inItValues['description'] = _editedProduct.description;
+        _inItValues['price'] = _editedProduct.price.toString();
+        _imageUrlController.text = _editedProduct.imageUrl;
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies();
   }
 
   @override
@@ -52,7 +71,12 @@ class _AddEditProductState extends State<AddEditProduct> {
     final _isvalidate = _form.currentState!.validate();
     if (!_isvalidate) return;
     _form.currentState!.save();
-    Provider.of<Products>(context, listen: false).addProducts(_editedProduct);
+    if (_editedProduct.id != "") {
+      Provider.of<Products>(context, listen: false)
+          .updateProducts(_editedProduct.id, _editedProduct);
+    } else {
+      Provider.of<Products>(context, listen: false).addProducts(_editedProduct);
+    }
     Navigator.of(context).pop();
   }
 
@@ -81,6 +105,7 @@ class _AddEditProductState extends State<AddEditProduct> {
             child: ListView(
               children: [
                 TextFormField(
+                  initialValue: _inItValues['title'],
                   decoration: InputDecoration(label: Text('Title')),
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) {
@@ -101,6 +126,7 @@ class _AddEditProductState extends State<AddEditProduct> {
                   },
                 ),
                 TextFormField(
+                  initialValue: _inItValues['price'],
                   decoration: InputDecoration(label: Text('Price')),
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.number,
@@ -127,6 +153,7 @@ class _AddEditProductState extends State<AddEditProduct> {
                   },
                 ),
                 TextFormField(
+                  initialValue: _inItValues['description'],
                   maxLines: 3,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(label: Text('Description')),
@@ -164,6 +191,7 @@ class _AddEditProductState extends State<AddEditProduct> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        //initialValue: _imageUrlController.text,
                         decoration: InputDecoration(
                           label: Text("Image URL"),
                         ),
@@ -178,9 +206,9 @@ class _AddEditProductState extends State<AddEditProduct> {
                           _editedProduct = Product(
                               title: _editedProduct.title,
                               price: _editedProduct.price,
-                              description: value!,
+                              description: _editedProduct.description,
                               id: _editedProduct.id,
-                              imageUrl: _editedProduct.imageUrl,
+                              imageUrl: _editedProduct.description,
                               isFavorate: _editedProduct.isFavorate);
                         },
                         validator: (value) {

@@ -71,6 +71,15 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateProducts(String id, Product newProduct) {
+    final prodIndex = _items.indexWhere((element) => element.id == id);
+    if (prodIndex >= 0)
+      _items[prodIndex] = newProduct;
+    else
+      print('error in products.dart file');
+    notifyListeners();
+  }
+
   Product findById(id) {
     return items.firstWhere((prod) => prod.id == id);
   }
