@@ -67,27 +67,30 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  void addProducts(Product newProdt) {
+  Future<void> addProducts(Product newProdt) {
     const url = "https://lite-144f1-default-rtdb.firebaseio.com/products.json";
-    http.post(Uri.parse(url),
-        body: json.encode({
-          'title': newProdt.title,
-          'price': newProdt.price,
-          'description': newProdt.description,
-          'imageUrl': newProdt.imageUrl,
-          'isFavorate': newProdt.isFavorate,
-          'id': DateTime.now().toString()
-        }));
-
-    final newProduct = Product(
-        id: DateTime.now().toString(),
-        title: newProdt.title,
-        description: newProdt.description,
-        price: newProdt.price,
-        imageUrl: newProdt.imageUrl,
-        isFavorate: newProdt.isFavorate);
-    _items.add(newProduct);
-    notifyListeners();
+    return http
+        .post(Uri.parse(url),
+            body: json.encode({
+              'title': newProdt.title,
+              'price': newProdt.price,
+              'description': newProdt.description,
+              'imageUrl': newProdt.imageUrl,
+              'isFavorate': newProdt.isFavorate,
+              'id': DateTime.now().toString()
+            }))
+        .then((response) {
+      //print(json.decode(response.body)['name']);
+      final newProduct = Product(
+          id: json.decode(response.body)['name'],
+          title: newProdt.title,
+          description: newProdt.description,
+          price: newProdt.price,
+          imageUrl: newProdt.imageUrl,
+          isFavorate: newProdt.isFavorate);
+      _items.add(newProduct);
+      notifyListeners();
+    });
   }
 
   void updateProducts(String id, Product newProduct) {
