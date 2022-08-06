@@ -2,6 +2,8 @@
 
 import 'package:amazon_lite/provider/product.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Products with ChangeNotifier {
   List<Product> _items = [
@@ -66,6 +68,17 @@ class Products with ChangeNotifier {
   }
 
   void addProducts(Product newProdt) {
+    const url = "https://lite-144f1-default-rtdb.firebaseio.com/products.json";
+    http.post(Uri.parse(url),
+        body: json.encode({
+          'title': newProdt.title,
+          'price': newProdt.price,
+          'description': newProdt.description,
+          'imageUrl': newProdt.imageUrl,
+          'isFavorate': newProdt.isFavorate,
+          'id': DateTime.now().toString()
+        }));
+
     final newProduct = Product(
         id: DateTime.now().toString(),
         title: newProdt.title,
