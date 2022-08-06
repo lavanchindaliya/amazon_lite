@@ -90,6 +90,8 @@ class Products with ChangeNotifier {
           isFavorate: newProdt.isFavorate);
       _items.add(newProduct);
       notifyListeners();
+    }).catchError((error) {
+      throw error;
     });
   }
 
