@@ -19,7 +19,20 @@ class ProductOverViewScreen extends StatefulWidget {
 }
 
 class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
+  var _isLoading = false;
   var _showOnlyFav = false;
+
+  @override
+  void initState() {
+    _isLoading = true;
+    Provider.of<Products>(context, listen: false).fetchAndSet().then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +81,10 @@ class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
             )
           ],
         ),
-        body: ProductGrid(_showOnlyFav));
+        body: _isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : ProductGrid(_showOnlyFav));
   }
 }
