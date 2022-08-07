@@ -62,25 +62,27 @@ class Products with ChangeNotifier {
   // }]]
 
   Future<void> fetchAndSet() async {
-    const url = 'https://lite-144f1-default-rtdb.firebaseio.com/products.json';
-    final response = await http.get(Uri.parse(url));
-    final extractedData = json.decode(response.body) as Map<String, dynamic>;
-    List<Product> loadedProducts = [];
+    try {
+      const url =
+          'https://lite-144f1-default-rtdb.firebaseio.com/products.json';
+      final response = await http.get(Uri.parse(url));
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      List<Product> loadedProducts = [];
 
-    extractedData.forEach((prodId, prodData) {
-      loadedProducts.add(Product(
-          id: prodId,
-          title: prodData['title'],
-          description: prodData['description'],
-          price: prodData['price'],
-          imageUrl: prodData['imageUrl'],
-          isFavorate: prodData['isFavorate']));
-    });
-    _items = loadedProducts;
-    loadedProducts.forEach((E) {
-      print(E);
-    });
-    notifyListeners();
+      extractedData.forEach((prodId, prodData) {
+        loadedProducts.add(Product(
+            id: prodId,
+            title: prodData['title'],
+            description: prodData['description'],
+            price: prodData['price'],
+            imageUrl: prodData['imageUrl'],
+            isFavorate: prodData['isFavorate']));
+      });
+      _items = loadedProducts;
+      notifyListeners();
+    } catch (error) {
+      print(error);
+    }
   }
 
   void removeItem(String id) {
@@ -115,11 +117,22 @@ class Products with ChangeNotifier {
     }
   }
 
-  void updateProducts(String id, Product newProduct) {
+  Future<void> updateProducts(String id, Product newProduct) async {
     final prodIndex = _items.indexWhere((element) => element.id == id);
-    if (prodIndex >= 0)
+    if (prodIndex >= 0) {
+      final url =
+          "https://lite-144f1-default-rtdb.firebaseio.com/products/${id}.json";
+      await http.patch(Uri.parse(url),
+          body: json.encode({
+            'title': newProduct.title,
+            'description': newProduct.description,
+            'imageUrl': newProduct.imageUrl,
+            'price': newProduct.price,
+            'isFavorate': newProduct.isFavorate
+          }));
       _items[prodIndex] = newProduct;
-    else
+      notifyListeners();
+    } else
       print('error in products.dart file');
     notifyListeners();
   }

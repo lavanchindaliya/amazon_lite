@@ -76,12 +76,8 @@ class _AddEditProductState extends State<AddEditProduct> {
       _isloading = true;
     });
     if (_editedProduct.id != "") {
-      Provider.of<Products>(context, listen: false)
+      await Provider.of<Products>(context, listen: false)
           .updateProducts(_editedProduct.id, _editedProduct);
-      setState(() {
-        _isloading = false;
-      });
-      Navigator.of(context).pop();
     } else {
       try {
         await Provider.of<Products>(context, listen: false)
@@ -100,13 +96,18 @@ class _AddEditProductState extends State<AddEditProduct> {
                         child: Text('ok'))
                   ],
                 ));
-      } finally {
-        setState(() {
-          _isloading = false;
-        });
-        Navigator.of(context).pop();
       }
+      // finally {
+      //   setState(() {
+      //     _isloading = false;
+      //   });
+      //   Navigator.of(context).pop();
+      // }
     }
+    setState(() {
+      _isloading = false;
+    });
+    Navigator.of(context).pop();
   }
 
   @override
