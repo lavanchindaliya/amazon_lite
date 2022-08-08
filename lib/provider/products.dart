@@ -86,6 +86,9 @@ class Products with ChangeNotifier {
   }
 
   void removeItem(String id) {
+    final url =
+        "https://lite-144f1-default-rtdb.firebaseio.com/products/${id}.json";
+    http.delete(Uri.parse(url));
     _items.removeWhere((element) => element.id == id);
 
     notifyListeners();
