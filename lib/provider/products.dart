@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_final_fields
 
+import 'package:amazon_lite/models/http_exception.dart';
 import 'package:amazon_lite/provider/product.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -85,18 +86,21 @@ class Products with ChangeNotifier {
     }
   }
 
-  void removeItem(String id) {
-    final url = "https://lite-144f1-default-rtdb.firebaseio.com/products/${id}";
+  Future<void> removeItem(String id) async {
+    final url =
+        "https://lite-144f1-default-rtdb.firebaseio.com/products/${id}.json";
     final _existingProductIndex =
         _items.indexWhere((element) => element.id == id);
-    var _existingProduct = _items[_existingProductIndex];
+    Product? _existingProduct = _items[_existingProductIndex];
     _items.removeWhere((element) => element.id == id);
-    http.delete(Uri.parse(url)).catchError((_) {
-      _items.add(_existingProduct);
-      notifyListeners();
-    });
-
     notifyListeners();
+    final response = await http.delete(Uri.parse(url));
+    if (response.statusCode >= 400) {
+      _items.insert(_existingProductIndex, _existingProduct);
+      notifyListeners();
+      throw HttpException('Error occured while deleting the product');
+    }
+    _existingProduct = null;
   }
 
   Future<void> addProducts(Product newProdt) async {
