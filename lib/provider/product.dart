@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as https;
 
 class Product with ChangeNotifier {
   final String id;
@@ -16,8 +19,21 @@ class Product with ChangeNotifier {
       required this.imageUrl,
       required this.isFavorate});
 
-  void toggleFavorate() {
+  Future<void> toggleFavorate(String id) async {
     isFavorate = !isFavorate;
     notifyListeners();
+    try {
+      final url =
+          "https://lite-144f1-default-rtdb.firebaseio.com/products/${id}.";
+      final respose = await https.get(
+        Uri.parse(url),
+      );
+      await https.patch(Uri.parse(url),
+          body: json.encode(
+              {'isFavorate': !json.decode(respose.body)['isFavorate']}));
+    } catch (_) {
+      isFavorate = !isFavorate;
+      notifyListeners();
+    }
   }
 }
