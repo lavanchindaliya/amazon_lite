@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = '/cart';
+
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
@@ -33,14 +34,7 @@ class CartScreen extends StatelessWidget {
                   Text("Total"),
                   Spacer(),
                   Chip(label: Text('\$${cart.total.toStringAsFixed(2)}')),
-                  TextButton(
-                      onPressed: () {
-                        Provider.of<Orders>(context, listen: false)
-                            .addOrder(cart.items.values.toList(), cart.total);
-                        cart.clear();
-                        Navigator.of(context).pushNamed(OrderScreen.routeName);
-                      },
-                      child: Text("ORDER NOW"))
+                  OrderButton(cart: cart)
                 ],
               ),
             ),
@@ -62,5 +56,42 @@ class CartScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class OrderButton extends StatefulWidget {
+  const OrderButton({
+    Key? key,
+    required this.cart,
+  }) : super(key: key);
+
+  final Cart cart;
+
+  @override
+  State<OrderButton> createState() => _OrderButtonState();
+}
+
+class _OrderButtonState extends State<OrderButton> {
+  var _isLoading = false;
+  @override
+  Widget build(BuildContext context) {
+    return _isLoading
+        ? CircularProgressIndicator()
+        : TextButton(
+            onPressed: widget.cart.total <= 0
+                ? null
+                : () async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    await Provider.of<Orders>(context, listen: false).addOrder(
+                        widget.cart.items.values.toList(), widget.cart.total);
+                    widget.cart.clear();
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    Navigator.of(context).pushNamed(OrderScreen.routeName);
+                  },
+            child: Text("ORDER NOW"));
   }
 }

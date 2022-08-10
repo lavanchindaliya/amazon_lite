@@ -24,7 +24,7 @@ class Product with ChangeNotifier {
     notifyListeners();
     try {
       final url =
-          "https://lite-144f1-default-rtdb.firebaseio.com/products/${id}.";
+          "https://lite-144f1-default-rtdb.firebaseio.com/products/${id}.json";
       final respose = await https.get(
         Uri.parse(url),
       );
