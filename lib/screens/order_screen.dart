@@ -6,8 +6,31 @@ import 'package:amazon_lite/widgets/order_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class OrderScreen extends StatelessWidget {
+class OrderScreen extends StatefulWidget {
   static const routeName = '/orderScreen';
+
+  @override
+  State<OrderScreen> createState() => _OrderScreenState();
+}
+
+class _OrderScreenState extends State<OrderScreen> {
+  var _isLoading = false;
+  @override
+  void initState() {
+    setState(() {
+      _isLoading = true;
+    });
+    Provider.of<ord.Orders>(context, listen: false)
+        .fetchAndSetOrder()
+        .then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final orderDate = Provider.of<ord.Orders>(context);
@@ -16,10 +39,14 @@ class OrderScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Your orders'),
       ),
-      body: ListView.builder(
-        itemBuilder: (_, i) => OrderItem(order: orderDate.orders[i]),
-        itemCount: orderDate.orders.length,
-      ),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView.builder(
+              itemBuilder: (_, i) => OrderItem(order: orderDate.orders[i]),
+              itemCount: orderDate.orders.length,
+            ),
     );
   }
 }

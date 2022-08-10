@@ -69,15 +69,17 @@ class Products with ChangeNotifier {
       final response = await http.get(Uri.parse(url));
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       List<Product> loadedProducts = [];
-
+      if (extractedData.isEmpty) return;
       extractedData.forEach((prodId, prodData) {
-        loadedProducts.add(Product(
-            id: prodId,
-            title: prodData['title'],
-            description: prodData['description'],
-            price: prodData['price'],
-            imageUrl: prodData['imageUrl'],
-            isFavorate: prodData['isFavorate']));
+        loadedProducts.insert(
+            0,
+            Product(
+                id: prodId,
+                title: prodData['title'],
+                description: prodData['description'],
+                price: prodData['price'],
+                imageUrl: prodData['imageUrl'],
+                isFavorate: prodData['isFavorate']));
       });
       _items = loadedProducts;
       notifyListeners();
