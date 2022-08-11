@@ -1,6 +1,7 @@
 import 'package:amazon_lite/provider/cart.dart';
 import 'package:amazon_lite/provider/orders.dart';
 import 'package:amazon_lite/provider/products.dart';
+import 'package:amazon_lite/screens/authScreen.dart';
 import 'package:amazon_lite/screens/cart_screen.dart';
 import 'package:amazon_lite/screens/addproduct_screen.dart';
 import 'package:amazon_lite/screens/order_screen.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Amaxon',
         theme: ThemeData(primarySwatch: Colors.teal, fontFamily: 'Lato'),
-        home: ProductOverViewScreen(),
+        home: AuthScreen(),
         routes: {
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
