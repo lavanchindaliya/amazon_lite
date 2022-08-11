@@ -1,3 +1,4 @@
+import 'package:amazon_lite/provider/auth.dart';
 import 'package:amazon_lite/provider/cart.dart';
 import 'package:amazon_lite/provider/orders.dart';
 import 'package:amazon_lite/provider/products.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (ctx) => Auth()),
         ChangeNotifierProvider(create: (ctx) => Products()),
         ChangeNotifierProvider(create: (ctx) => Cart()),
         ChangeNotifierProvider(create: (ctx) => Orders())

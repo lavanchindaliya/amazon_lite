@@ -1,8 +1,10 @@
-// ignore_for_file: file_names, prefer_const_constructors
+// ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:math';
 
+import 'package:amazon_lite/provider/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 enum AuthMode { Signup, Login }
 
@@ -59,7 +61,7 @@ class AuthScreen extends StatelessWidget {
                         ],
                       ),
                       child: Text(
-                        'MyShop',
+                        'Amazon',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 50,
@@ -102,7 +104,7 @@ class _AuthCardState extends State<AuthCard> {
   var _isLoading = false;
   final _passwordController = TextEditingController();
 
-  void _submit() {
+  Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
       // Invalid!
       return;
@@ -114,7 +116,8 @@ class _AuthCardState extends State<AuthCard> {
     if (_authMode == AuthMode.Login) {
       // Log user in
     } else {
-      // Sign user up
+      await Provider.of<Auth>(context, listen: false)
+          .signUp(_authData['email'], _authData['password']);
     }
     setState(() {
       _isLoading = false;
