@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:amazon_lite/models/http_exception.dart';
 import 'package:amazon_lite/provider/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -101,6 +102,21 @@ class _AuthCardState extends State<AuthCard> {
     'email': '',
     'password': '',
   };
+
+  void showErrorDialogue(String errorMessage) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: Text('An error occured'),
+              content: Text(errorMessage),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text('ok'))
+              ],
+            ));
+  }
+
   var _isLoading = false;
   final _passwordController = TextEditingController();
 
@@ -113,13 +129,31 @@ class _AuthCardState extends State<AuthCard> {
     setState(() {
       _isLoading = true;
     });
-    if (_authMode == AuthMode.Login) {
-      await Provider.of<Auth>(context, listen: false)
-          .signIn(_authData['email'], _authData['password']);
-    } else {
-      await Provider.of<Auth>(context, listen: false)
-          .signUp(_authData['email'], _authData['password']);
+    try {
+      if (_authMode == AuthMode.Login) {
+        await Provider.of<Auth>(context, listen: false)
+            .signIn(_authData['email'], _authData['password']);
+      } else {
+        await Provider.of<Auth>(context, listen: false)
+            .signUp(_authData['email'], _authData['password']);
+      }
+    } on HttpException catch (error) {
+      var errorMessage = 'Authentication Failed';
+      if (error.toString().contains('EMAIL_EXISTS')) {
+        errorMessage = 'Email already exists';
+      } else if (error.toString().contains('OPERATION_NOT_ALLOWED')) {
+        errorMessage = 'user temporary banned';
+      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
+        errorMessage = 'Email adress not found';
+      } else if (error.toString().contains('INVALID_PASSWORD')) {
+        errorMessage = 'Incorrect Password';
+      }
+      showErrorDialogue(errorMessage);
+    } catch (error) {
+      var errorMessage = 'Could not authenticate';
+      showErrorDialogue(errorMessage);
     }
+
     setState(() {
       _isLoading = false;
     });
