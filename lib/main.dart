@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(primarySwatch: Colors.teal, fontFamily: 'Lato'),
         home: AuthScreen(),
         routes: {
+          ProductOverViewScreen.routeName: (ctx) => ProductOverViewScreen(),
           ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
           OrderScreen.routeName: (ctx) => OrderScreen(),

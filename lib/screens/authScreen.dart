@@ -4,6 +4,8 @@ import 'dart:math';
 
 import 'package:amazon_lite/models/http_exception.dart';
 import 'package:amazon_lite/provider/auth.dart';
+import 'package:amazon_lite/screens/product_detail_screen.dart';
+import 'package:amazon_lite/screens/products_overview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -137,6 +139,9 @@ class _AuthCardState extends State<AuthCard> {
         await Provider.of<Auth>(context, listen: false)
             .signUp(_authData['email'], _authData['password']);
       }
+
+      Navigator.of(context)
+          .pushReplacementNamed(ProductOverViewScreen.routeName);
     } on HttpException catch (error) {
       var errorMessage = 'Authentication Failed';
       if (error.toString().contains('EMAIL_EXISTS')) {
