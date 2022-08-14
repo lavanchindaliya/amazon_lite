@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Products with ChangeNotifier {
+  String? authToken;
+  Products(this.authToken);
   List<Product> _items = [
     // Product(
     //     id: 'p1',
@@ -64,8 +66,8 @@ class Products with ChangeNotifier {
 
   Future<void> fetchAndSet() async {
     try {
-      const url =
-          'https://lite-144f1-default-rtdb.firebaseio.com/products.json';
+      final url =
+          'https://lite-144f1-default-rtdb.firebaseio.com/products.json?auth=$authToken';
       final response = await http.get(Uri.parse(url));
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       List<Product> loadedProducts = [];

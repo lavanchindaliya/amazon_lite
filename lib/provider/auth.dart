@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:amazon_lite/models/http_exception.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
