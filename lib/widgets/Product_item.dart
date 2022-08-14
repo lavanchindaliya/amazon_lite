@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, file_names, prefer_const_constructors
 
+import 'package:amazon_lite/provider/auth.dart';
 import 'package:amazon_lite/provider/cart.dart';
 import 'package:amazon_lite/provider/product.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
+    final authData = Provider.of<Auth>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -41,7 +43,8 @@ class ProductItem extends StatelessWidget {
               icon: Icon(
                   product.isFavorate ? Icons.favorite : Icons.favorite_border,
                   color: Colors.red),
-              onPressed: () => {product.toggleFavorate(product.id)},
+              onPressed: () =>
+                  {product.toggleFavorate(product.id, authData.token)},
             ),
           ),
           trailing: IconButton(

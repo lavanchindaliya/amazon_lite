@@ -19,12 +19,12 @@ class Product with ChangeNotifier {
       required this.imageUrl,
       required this.isFavorate});
 
-  Future<void> toggleFavorate(String id) async {
+  Future<void> toggleFavorate(String id, String? authToken) async {
     isFavorate = !isFavorate;
     notifyListeners();
     try {
       final url =
-          "https://lite-144f1-default-rtdb.firebaseio.com/products/${id}.json";
+          "https://lite-144f1-default-rtdb.firebaseio.com/products/${id}.json?auth=$authToken";
       final respose = await https.get(
         Uri.parse(url),
       );
