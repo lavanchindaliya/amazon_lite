@@ -19,18 +19,17 @@ class Product with ChangeNotifier {
       required this.imageUrl,
       required this.isFavorate});
 
-  Future<void> toggleFavorate(String id, String? authToken) async {
+  Future<void> toggleFavorate(
+      String id, String? authToken, String? userId) async {
     isFavorate = !isFavorate;
     notifyListeners();
     try {
       final url =
-          "https://lite-144f1-default-rtdb.firebaseio.com/products/${id}.json?auth=$authToken";
+          "https://lite-144f1-default-rtdb.firebaseio.com/userFavorates/$userId/${id}.json?auth=$authToken";
       final respose = await https.get(
         Uri.parse(url),
       );
-      await https.patch(Uri.parse(url),
-          body: json.encode(
-              {'isFavorate': !json.decode(respose.body)['isFavorate']}));
+      await https.put(Uri.parse(url), body: json.encode(isFavorate));
     } catch (_) {
       isFavorate = !isFavorate;
       notifyListeners();

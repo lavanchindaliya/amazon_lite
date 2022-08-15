@@ -8,7 +8,8 @@ import 'dart:convert';
 
 class Products with ChangeNotifier {
   String? authToken;
-  Products(this.authToken);
+  String? userId;
+  Products(this.authToken, this.userId);
   List<Product> _items = [];
 
   var _showFavoratesOnly = false;
@@ -33,10 +34,15 @@ class Products with ChangeNotifier {
 
   Future<void> fetchAndSet() async {
     try {
-      final url =
+      var url =
           'https://lite-144f1-default-rtdb.firebaseio.com/products.json?auth=$authToken';
       final response = await http.get(Uri.parse(url));
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      url =
+          "https://lite-144f1-default-rtdb.firebaseio.com/userFavorates/$userId/.json?auth=$authToken";
+      final favorateResponse = await http.get(Uri.parse(url));
+      final favorateData = json.decode(favorateResponse.body);
+
       List<Product> loadedProducts = [];
       if (extractedData.isEmpty) return;
       extractedData.forEach((prodId, prodData) {
@@ -48,7 +54,9 @@ class Products with ChangeNotifier {
                 description: prodData['description'],
                 price: prodData['price'],
                 imageUrl: prodData['imageUrl'],
-                isFavorate: prodData['isFavorate']));
+                isFavorate: favorateData == null
+                    ? false
+                    : favorateData[prodId] ?? false));
       });
       _items = loadedProducts;
       notifyListeners();
@@ -84,7 +92,6 @@ class Products with ChangeNotifier {
             'price': newProdt.price,
             'description': newProdt.description,
             'imageUrl': newProdt.imageUrl,
-            'isFavorate': newProdt.isFavorate,
             'id': DateTime.now().toString()
           }));
       final newProduct = Product(

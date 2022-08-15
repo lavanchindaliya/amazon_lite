@@ -43,8 +43,10 @@ class ProductItem extends StatelessWidget {
               icon: Icon(
                   product.isFavorate ? Icons.favorite : Icons.favorite_border,
                   color: Colors.red),
-              onPressed: () =>
-                  {product.toggleFavorate(product.id, authData.token)},
+              onPressed: () => {
+                product.toggleFavorate(
+                    product.id, authData.token, authData.userId)
+              },
             ),
           ),
           trailing: IconButton(
