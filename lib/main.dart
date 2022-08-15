@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:amazon_lite/provider/auth.dart';
 import 'package:amazon_lite/provider/cart.dart';
 import 'package:amazon_lite/provider/orders.dart';
@@ -23,9 +25,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
         ChangeNotifierProxyProvider<Auth, Products>(
-            update: (context, value, previous) =>
-                Products(value.token, value.userId),
-            create: (context) => Products(null, null)),
+          create: (context) => Products(null, null),
+          update: (context, value, previous) =>
+              Products(value.token, value.userId),
+        ),
         ChangeNotifierProvider(create: (ctx) => Cart()),
         ChangeNotifierProxyProvider<Auth, Orders>(
             update: (context, value, previous) => Orders(value.token),
