@@ -35,7 +35,7 @@ class Products with ChangeNotifier {
   Future<void> fetchAndSet() async {
     try {
       var url =
-          'https://lite-144f1-default-rtdb.firebaseio.com/products.json?auth=$authToken';
+          'https://lite-144f1-default-rtdb.firebaseio.com/products.json?auth=$authToken&orderBy="creatorId"&equalTo="$userId"';
       final response = await http.get(Uri.parse(url));
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       url =
@@ -92,7 +92,8 @@ class Products with ChangeNotifier {
             'price': newProdt.price,
             'description': newProdt.description,
             'imageUrl': newProdt.imageUrl,
-            'id': DateTime.now().toString()
+            'id': DateTime.now().toString(),
+            'creatorId': userId
           }));
       final newProduct = Product(
           id: json.decode(response.body)['name'],
