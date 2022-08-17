@@ -10,6 +10,7 @@ import 'package:amazon_lite/screens/addproduct_screen.dart';
 import 'package:amazon_lite/screens/order_screen.dart';
 import 'package:amazon_lite/screens/product_detail_screen.dart';
 import 'package:amazon_lite/screens/products_overview_screen.dart';
+import 'package:amazon_lite/screens/splashScreen.dart';
 import 'package:amazon_lite/screens/user_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,9 +41,16 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Amaxon',
           theme: ThemeData(primarySwatch: Colors.teal, fontFamily: 'Lato'),
-          home: auth.isAuthenticated ? ProductOverViewScreen() : AuthScreen(),
+          home: auth.isAuthenticated
+              ? ProductOverViewScreen()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (context, snapshot) =>
+                      snapshot.connectionState == ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen(),
+                ),
           routes: {
-            //ProductOverViewScreen.routeName: (ctx) => ProductOverViewScreen(),
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),
             OrderScreen.routeName: (ctx) => OrderScreen(),

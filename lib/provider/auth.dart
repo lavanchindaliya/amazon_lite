@@ -4,12 +4,13 @@ import 'package:amazon_lite/models/http_exception.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as https;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
   String? _token;
   DateTime? _expiartyDate;
   String? _userId;
-  // Timer? _autoLogoutTimer;
+  Timer? _autoLogoutTimer;
 
   bool get isAuthenticated {
     return _token != null;
@@ -28,15 +29,36 @@ class Auth with ChangeNotifier {
     return null;
   }
 
-  void logout() {
+  void logout() async {
     _token = null;
     _userId = null;
     _expiartyDate = null;
-    // if (_autoLogoutTimer != null) {
-    //   _autoLogoutTimer!.cancel();
-    //   _autoLogoutTimer = null;
-    // }
+    if (_autoLogoutTimer != null) {
+      _autoLogoutTimer!.cancel();
+      _autoLogoutTimer = null;
+    }
     notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
+
+  Future<bool> tryAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('userData')) {
+      return false;
+    }
+    final extractedData = json.decode(prefs.getString('userData') as String)
+        as Map<String, dynamic>;
+    final expiaryDate = DateTime.parse(extractedData['expiaryDate']);
+    if (expiaryDate.isBefore(DateTime.now())) {
+      return false;
+    }
+    _token = extractedData['token'];
+    _userId = extractedData['userId'];
+    _expiartyDate = expiaryDate;
+    autoLogout();
+    notifyListeners();
+    return true;
   }
 
   Future<void> authenticate(
@@ -59,7 +81,14 @@ class Auth with ChangeNotifier {
       _expiartyDate = DateTime.now()
           .add(Duration(seconds: int.parse(responseData['expiresIn'])));
       print('token generated');
-      //autoLogout();
+      autoLogout();
+      final prefs = await SharedPreferences.getInstance();
+      final userData = jsonEncode({
+        'token': _token,
+        'userId': _userId,
+        'expiaryDate': _expiartyDate!.toIso8601String()
+      });
+      prefs.setString('userData', userData);
     } catch (error) {
       rethrow;
     }
@@ -74,11 +103,11 @@ class Auth with ChangeNotifier {
     return await authenticate(email, password, 'signInWithPassword');
   }
 
-  // void autoLogout() {
-  //   if (_autoLogoutTimer != null) {
-  //     _autoLogoutTimer!.cancel();
-  //   }
-  //   final _timeToExpiry = _expiartyDate!.difference(DateTime.now()).inSeconds;
-  //   _autoLogoutTimer = Timer(Duration(seconds: _timeToExpiry), logout);
-  // }
+  void autoLogout() {
+    if (_autoLogoutTimer != null) {
+      _autoLogoutTimer!.cancel();
+    }
+    final _timeToExpiry = _expiartyDate!.difference(DateTime.now()).inSeconds;
+    _autoLogoutTimer = Timer(Duration(seconds: _timeToExpiry), logout);
+  }
 }
