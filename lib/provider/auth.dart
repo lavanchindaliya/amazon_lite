@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:amazon_lite/models/http_exception.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,7 @@ class Auth with ChangeNotifier {
   String? _token;
   DateTime? _expiartyDate;
   String? _userId;
+  // Timer? _autoLogoutTimer;
 
   bool get isAuthenticated {
     return _token != null;
@@ -30,6 +32,10 @@ class Auth with ChangeNotifier {
     _token = null;
     _userId = null;
     _expiartyDate = null;
+    // if (_autoLogoutTimer != null) {
+    //   _autoLogoutTimer!.cancel();
+    //   _autoLogoutTimer = null;
+    // }
     notifyListeners();
   }
 
@@ -53,6 +59,7 @@ class Auth with ChangeNotifier {
       _expiartyDate = DateTime.now()
           .add(Duration(seconds: int.parse(responseData['expiresIn'])));
       print('token generated');
+      //autoLogout();
     } catch (error) {
       rethrow;
     }
@@ -66,4 +73,12 @@ class Auth with ChangeNotifier {
   Future<void> signIn(String? email, String? password) async {
     return await authenticate(email, password, 'signInWithPassword');
   }
+
+  // void autoLogout() {
+  //   if (_autoLogoutTimer != null) {
+  //     _autoLogoutTimer!.cancel();
+  //   }
+  //   final _timeToExpiry = _expiartyDate!.difference(DateTime.now()).inSeconds;
+  //   _autoLogoutTimer = Timer(Duration(seconds: _timeToExpiry), logout);
+  // }
 }
