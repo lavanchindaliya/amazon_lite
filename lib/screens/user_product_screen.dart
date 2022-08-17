@@ -8,12 +8,12 @@ import 'package:provider/provider.dart';
 class UserProductScreen extends StatelessWidget {
   static const routeName = '/userProduct-screen';
   Future<void> _refreshProducts(BuildContext context) async {
-    await Provider.of<Products>(context).fetchAndSet();
+    await Provider.of<Products>(context, listen: false).fetchAndSet(true);
   }
 
   @override
   Widget build(BuildContext context) {
-    final prodData = Provider.of<Products>(context);
+    //final prodData = Provider.of<Products>(context); why i have done thid
 
     return Scaffold(
       drawer: AppDrawer(),
@@ -28,18 +28,26 @@ class UserProductScreen extends StatelessWidget {
               icon: Icon(Icons.add))
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: () => _refreshProducts(context),
-        child: Padding(
-          padding: EdgeInsets.all(8),
-          child: ListView.builder(
-            itemBuilder: (ctx, i) => UserItem(
-                id: prodData.items[i].id,
-                url: prodData.items[i].imageUrl,
-                title: prodData.items[i].title),
-            itemCount: prodData.items.length,
-          ),
-        ),
+      body: FutureBuilder(
+        future: _refreshProducts(context),
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(child: CircularProgressIndicator())
+                : RefreshIndicator(
+                    onRefresh: () => _refreshProducts(context),
+                    child: Consumer<Products>(
+                      builder: (context, prodData, _) => Padding(
+                        padding: EdgeInsets.all(8),
+                        child: ListView.builder(
+                          itemBuilder: (ctx, i) => UserItem(
+                              id: prodData.items[i].id,
+                              url: prodData.items[i].imageUrl,
+                              title: prodData.items[i].title),
+                          itemCount: prodData.items.length,
+                        ),
+                      ),
+                    ),
+                  ),
       ),
     );
   }
