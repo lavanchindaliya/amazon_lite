@@ -26,6 +26,13 @@ class Auth with ChangeNotifier {
     return null;
   }
 
+  void logout() {
+    _token = null;
+    _userId = null;
+    _expiartyDate = null;
+    notifyListeners();
+  }
+
   Future<void> authenticate(
       String? email, String? password, String urlSegment) async {
     try {
@@ -49,6 +56,7 @@ class Auth with ChangeNotifier {
     } catch (error) {
       rethrow;
     }
+    notifyListeners();
   }
 
   Future<void> signUp(String? email, String? password) async {

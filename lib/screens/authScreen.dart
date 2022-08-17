@@ -140,8 +140,7 @@ class _AuthCardState extends State<AuthCard> {
             .signUp(_authData['email'], _authData['password']);
       }
 
-      Navigator.of(context)
-          .pushReplacementNamed(ProductOverViewScreen.routeName);
+      Navigator.of(context).pushReplacementNamed('/');
     } on HttpException catch (error) {
       var errorMessage = 'Authentication Failed';
       if (error.toString().contains('EMAIL_EXISTS')) {
