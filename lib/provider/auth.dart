@@ -29,7 +29,7 @@ class Auth with ChangeNotifier {
     return null;
   }
 
-  void logout() async {
+  Future<void> logout() async {
     _token = null;
     _userId = null;
     _expiartyDate = null;
@@ -37,9 +37,9 @@ class Auth with ChangeNotifier {
       _autoLogoutTimer!.cancel();
       _autoLogoutTimer = null;
     }
-    notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
+    notifyListeners();
   }
 
   Future<bool> tryAutoLogin() async {
