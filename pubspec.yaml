@@ -74,6 +74,7 @@ flutter:
     - assets/image/icon.png
     - assets/image/splash.png
     - assets/image/amazon.jpg
+    - assets/image/placeHolder.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
