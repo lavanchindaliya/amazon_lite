@@ -23,6 +23,14 @@ class ProductOverViewScreen extends StatefulWidget {
 }
 
 class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
+  TextStyle boldPart = TextStyle(
+      fontFamily: "Manrope", fontWeight: FontWeight.w600, fontSize: 20);
+  TextStyle lightPart = TextStyle(
+      color: Colors.blueGrey,
+      fontFamily: "Manrope",
+      fontWeight: FontWeight.w300,
+      fontSize: 20);
+
   var _isLoading = false;
   var _showOnlyFav = false;
   List<Carsouler> carouselList = [
@@ -143,7 +151,24 @@ class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text("New arrivals"), Text("see more")],
+                        children: [
+                          Row(children: [
+                            Text(
+                              "New ",
+                              style: boldPart,
+                            ),
+                            Text(
+                              'Arrivals',
+                              style: lightPart,
+                            ),
+                          ]),
+                          Text("see more ->",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.blueGrey,
+                                  fontStyle: FontStyle.italic))
+                        ],
                       ),
                     ),
                     Container(

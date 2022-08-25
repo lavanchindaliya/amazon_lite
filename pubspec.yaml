@@ -103,6 +103,13 @@ flutter:
     - family: Anton
       fonts:
         - asset: assets/fonts/Anton-Regular.ttf
+    - family: Manrope
+      fonts:
+        - asset: assets/fonts/Manrope-ExtraLight.tff
+          weight: 200
+        - asset: assets/fonts/Manrope-Medium.tff
+        - asset: assets/fonts/Manrope-SemiBold.tff
+          weight: 600
         
   #
   # For details regarding fonts from package dependencies,
