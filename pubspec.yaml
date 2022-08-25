@@ -42,6 +42,7 @@ dependencies:
   http: ^0.13.5
   flutter_launcher_icons: ^0.9.3
   shared_preferences: ^2.0.15
+  carousel_slider: ^4.1.1
 
 flutter_icons:
   image_path: "assets/image/icon.png"
@@ -73,8 +74,14 @@ flutter:
   assets:
     - assets/image/icon.png
     - assets/image/splash.png
+    - assets/image/logo.jpg
     - assets/image/amazon.jpg
     - assets/image/placeHolder.png
+    - assets/image/calsoular_images/carsoular_one.jpg
+    - assets/image/calsoular_images/carsoular_two.jpg
+    - assets/image/calsoular_images/carsoular_three.jpg
+    - assets/image/calsoular_images/carsoular_four.jpg
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -7,7 +7,9 @@ import 'package:amazon_lite/screens/cart_screen.dart';
 import 'package:amazon_lite/widgets/Product_item.dart';
 import 'package:amazon_lite/widgets/app_drawer.dart';
 import 'package:amazon_lite/widgets/badge.dart';
+import 'package:amazon_lite/widgets/carsoular.dart';
 import 'package:amazon_lite/widgets/products_grid.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +25,12 @@ class ProductOverViewScreen extends StatefulWidget {
 class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
   var _isLoading = false;
   var _showOnlyFav = false;
-
+  List<Carsouler> carouselList = [
+    Carsouler(imageUrl: "assets/image/calsoular_images/carsoular_one.jpg"),
+    Carsouler(imageUrl: "assets/image/calsoular_images/carsoular_two.jpg"),
+    Carsouler(imageUrl: "assets/image/calsoular_images/carsoular_three.jpg"),
+    Carsouler(imageUrl: "assets/image/calsoular_images/carsoular_four.jpg")
+  ];
   @override
   void initState() {
     _isLoading = true;
@@ -39,54 +46,115 @@ class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: AppDrawer(),
-        appBar: AppBar(
-          backgroundColor: Colors.teal[200],
-          title: Text(
-            'amazon',
-            style: TextStyle(color: Colors.black54),
-          ),
-          actions: [
-            PopupMenuButton(
-                onSelected: (FilterOptions selectedValue) {
-                  setState(() {
-                    if (selectedValue == FilterOptions.Favorates) {
-                      _showOnlyFav = true;
-                    } else {
-                      _showOnlyFav = false;
-                      //
-                    }
-                  });
-                },
-                icon: Icon(Icons.more_vert),
-                itemBuilder: (_) => [
-                      PopupMenuItem(
-                        child: Text('only favorates'),
-                        value: FilterOptions.Favorates,
-                      ),
-                      PopupMenuItem(
-                        child: Text('show all'),
-                        value: FilterOptions.All,
-                      ),
-                    ]),
-            Consumer<Cart>(
-              builder: (_, cart, ch) => Badge(
-                value: cart.itemQuantity.toString(),
-                color: Colors.amber,
-                child: ch!,
-              ),
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(CartScreen.routeName);
-                  },
-                  icon: Icon(Icons.shopping_bag)),
+      backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(CartScreen.routeName);
+        },
+        child: Consumer<Cart>(
+            builder: (_, cart, ch) => Badge(
+                  value: cart.itemQuantity.toString(),
+                  color: Colors.amber,
+                  child: ch!,
+                ),
+            child: Container(
+                child: Icon(
+              Icons.shopping_bag,
+              size: 40,
+              color: Colors.white,
+            ))),
+      ),
+
+      drawer: AppDrawer(),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.black,
+        title: const Image(
+            image: AssetImage("assets/image/logo.jpg"), height: 80, width: 120),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {}, icon: Icon(Icons.search, color: Colors.white))
+        ],
+      ),
+      // AppBar(
+      //   backgroundColor: Colors.teal[200],
+      //   title: Text(
+      //     'amazon',
+      //     style: TextStyle(color: Colors.black54),
+      //   ),
+      //   actions: [
+      //     PopupMenuButton(
+      //         onSelected: (FilterOptions selectedValue) {
+      //           setState(() {
+      //             if (selectedValue == FilterOptions.Favorates) {
+      //               _showOnlyFav = true;
+      //             } else {
+      //               _showOnlyFav = false;
+      //               //
+      //             }
+      //           });
+      //         },
+      //         icon: Icon(Icons.more_vert),
+      //         itemBuilder: (_) => [
+      //               PopupMenuItem(
+      //                 child: Text('only favorates'),
+      //                 value: FilterOptions.Favorates,
+      //               ),
+      //               PopupMenuItem(
+      //                 child: Text('show all'),
+      //                 value: FilterOptions.All,
+      //               ),
+      //             ]),
+      //     Consumer<Cart>(
+      //       builder: (_, cart, ch) => Badge(
+      //         value: cart.itemQuantity.toString(),
+      //         color: Colors.amber,
+      //         child: ch!,
+      //       ),
+      //       child: IconButton(
+      //           onPressed: () {
+      //             Navigator.of(context).pushNamed(CartScreen.routeName);
+      //           },
+      //           icon: Icon(Icons.shopping_bag)),
+      //     )
+      //   ],
+      // ),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
             )
-          ],
-        ),
-        body: _isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : ProductGrid(_showOnlyFav));
+          : SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      color: Colors.black,
+                      height: 10,
+                    ),
+                    Container(
+                      color: Colors.black,
+                      child: CarouselSlider(
+                          items: carouselList,
+                          options:
+                              CarouselOptions(autoPlay: true, height: 200)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text("New arrivals"), Text("see more")],
+                      ),
+                    ),
+                    Container(
+                        // color: Colors.red,
+                        height: 234,
+                        width: 600,
+                        child: ProductGrid(_showOnlyFav))
+                  ],
+                ),
+              ),
+            ),
+    );
   }
 }

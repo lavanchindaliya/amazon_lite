@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, curly_braces_in_flow_control_structures
 
 import 'package:amazon_lite/provider/orders.dart' as ord;
 import 'package:amazon_lite/widgets/app_drawer.dart';
