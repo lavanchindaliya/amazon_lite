@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:amazon_lite/provider/auth.dart';
 import 'package:amazon_lite/provider/cart.dart';
@@ -23,6 +23,12 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    List<BottomNavigationBarItem> _bottomBarItems = [
+      BottomNavigationBarItem(icon: Icon(Icons.pages)),
+      BottomNavigationBarItem(icon: Icon(Icons.pages)),
+      BottomNavigationBarItem(icon: Icon(Icons.pages)),
+    ];
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
@@ -42,16 +48,17 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Amaxon',
           theme: ThemeData(primarySwatch: Colors.orange, fontFamily: 'Lato'),
-          home: //HomeScreen(),
-              auth.isAuthenticated
-                  ? ProductOverViewScreen()
-                  : FutureBuilder(
-                      future: auth.tryAutoLogin(),
-                      builder: (context, snapshot) =>
-                          snapshot.connectionState == ConnectionState.waiting
-                              ? SplashScreen()
-                              : AuthScreen(),
-                    ),
+          home: auth.isAuthenticated
+              ? Home()
+              :
+              //ProductOverViewScreen()
+              FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (context, snapshot) =>
+                      snapshot.connectionState == ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen(),
+                ),
           routes: {
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
             CartScreen.routeName: (ctx) => CartScreen(),
@@ -65,11 +72,46 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
-  String title;
-  Home({required this.title});
+class Home extends StatefulWidget {
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  List<Widget> screens = [
+    ProductOverViewScreen(),
+    UserProductScreen(),
+    OrderScreen(),
+    CartScreen()
+  ];
+  var _currentPageindex = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text(title)));
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.black,
+        title: const Image(
+            image: AssetImage("assets/image/logo.jpg"), height: 80, width: 120),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {}, icon: Icon(Icons.search, color: Colors.white))
+        ],
+      ),
+      bottomNavigationBar: NavigationBar(
+          onDestinationSelected: (int index) {
+            setState(() {
+              _currentPageindex = index;
+            });
+          },
+          selectedIndex: _currentPageindex,
+          destinations: [
+            NavigationDestination(icon: Icon(Icons.home), label: "home"),
+            NavigationDestination(
+                icon: Icon(Icons.grid_4x4), label: "products"),
+          ]),
+      body: screens[_currentPageindex],
+    );
   }
 }

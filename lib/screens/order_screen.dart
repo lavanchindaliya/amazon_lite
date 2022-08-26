@@ -11,8 +11,14 @@ class OrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<BottomNavigationBarItem> _bottomBarItems = [
+      BottomNavigationBarItem(icon: Icon(Icons.pages)),
+      BottomNavigationBarItem(icon: Icon(Icons.pages)),
+      BottomNavigationBarItem(icon: Icon(Icons.pages)),
+    ];
     //final orderDate = Provider.of<ord.Orders>(context);
     return Scaffold(
+        bottomNavigationBar: BottomNavigationBar(items: _bottomBarItems),
         drawer: AppDrawer(),
         appBar: AppBar(
           title: Text('Your orders'),
