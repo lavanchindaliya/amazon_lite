@@ -110,6 +110,8 @@ class _HomeState extends State<Home> {
             NavigationDestination(icon: Icon(Icons.home), label: "home"),
             NavigationDestination(
                 icon: Icon(Icons.grid_4x4), label: "products"),
+            NavigationDestination(icon: Icon(Icons.car_crash), label: 'order'),
+            NavigationDestination(icon: Icon(Icons.abc), label: 'cart')
           ]),
       body: screens[_currentPageindex],
     );
