@@ -9,6 +9,7 @@ import 'package:amazon_lite/screens/cart_screen.dart';
 import 'package:amazon_lite/screens/addproduct_screen.dart';
 import 'package:amazon_lite/screens/homeScreen.dart';
 import 'package:amazon_lite/screens/order_screen.dart';
+import 'package:amazon_lite/screens/our_products.dart';
 import 'package:amazon_lite/screens/product_detail_screen.dart';
 import 'package:amazon_lite/screens/products_overview_screen.dart';
 import 'package:amazon_lite/screens/splashScreen.dart';
@@ -80,7 +81,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<Widget> screens = [
     ProductOverViewScreen(),
-    UserProductScreen(),
+    OurProducts(),
     OrderScreen(),
     CartScreen()
   ];
@@ -88,17 +89,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.black,
-        title: const Image(
-            image: AssetImage("assets/image/logo.jpg"), height: 80, width: 120),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {}, icon: Icon(Icons.search, color: Colors.white))
-        ],
-      ),
       bottomNavigationBar: NavigationBar(
           onDestinationSelected: (int index) {
             setState(() {
@@ -109,9 +99,9 @@ class _HomeState extends State<Home> {
           destinations: [
             NavigationDestination(icon: Icon(Icons.home), label: "home"),
             NavigationDestination(
-                icon: Icon(Icons.grid_4x4), label: "products"),
-            NavigationDestination(icon: Icon(Icons.car_crash), label: 'order'),
-            NavigationDestination(icon: Icon(Icons.abc), label: 'cart')
+                icon: Icon(Icons.dashboard), label: "products"),
+            NavigationDestination(icon: Icon(Icons.backpack), label: 'order'),
+            NavigationDestination(icon: Icon(Icons.local_mall), label: 'cart')
           ]),
       body: screens[_currentPageindex],
     );

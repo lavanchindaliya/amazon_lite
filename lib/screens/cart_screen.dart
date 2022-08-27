@@ -9,51 +9,66 @@ import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = '/cart';
+  TextStyle boldPart = TextStyle(
+      fontFamily: "Manrope", fontWeight: FontWeight.w600, fontSize: 25);
+  TextStyle lightPart = TextStyle(
+      color: Colors.blueGrey,
+      fontFamily: "Manrope",
+      fontWeight: FontWeight.w300,
+      fontSize: 25);
 
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<Cart>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Check Out",
-            style: TextStyle(
-              color: Colors.black54,
-            )),
-        backgroundColor: Colors.teal[200],
-      ),
-      body: Column(
-        children: [
-          Card(
-            margin: EdgeInsets.all(20),
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Total"),
-                  Spacer(),
-                  Chip(label: Text('\$${cart.total.toStringAsFixed(2)}')),
-                  OrderButton(cart: cart)
-                ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(children: [
+                Text(
+                  "Your ",
+                  style: boldPart,
+                ),
+                Text(
+                  'cart',
+                  style: lightPart,
+                ),
+              ]),
+              Card(
+                margin: EdgeInsets.all(20),
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Total"),
+                      Spacer(),
+                      Chip(label: Text('\$${cart.total.toStringAsFixed(2)}')),
+                      OrderButton(cart: cart)
+                    ],
+                  ),
+                ),
               ),
-            ),
+              SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: Card(
+                    child: ListView.builder(
+                  itemCount: cart.items.length,
+                  itemBuilder: (_, i) => BagItem(
+                      id: cart.items.values.toList()[i].id,
+                      price: cart.items.values.toList()[i].price,
+                      quantity: cart.items.values.toList()[i].quantity,
+                      title: cart.items.values.toList()[i].title),
+                )),
+              ),
+            ],
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Expanded(
-            child: Card(
-                child: ListView.builder(
-              itemCount: cart.items.length,
-              itemBuilder: (_, i) => BagItem(
-                  id: cart.items.values.toList()[i].id,
-                  price: cart.items.values.toList()[i].price,
-                  quantity: cart.items.values.toList()[i].quantity,
-                  title: cart.items.values.toList()[i].title),
-            )),
-          ),
-        ],
+        ),
       ),
     );
   }

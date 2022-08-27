@@ -74,6 +74,17 @@ class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
       ),
 
       drawer: AppDrawer(),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.black,
+        title: const Image(
+            image: AssetImage("assets/image/logo.jpg"), height: 80, width: 120),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {}, icon: Icon(Icons.search, color: Colors.white))
+        ],
+      ),
 
       // AppBar(
       //   backgroundColor: Colors.teal[200],
