@@ -27,12 +27,9 @@ class OrderScreen extends StatelessWidget {
                 .fetchAndSetOrder(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting)
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              else {
-                if (snapshot.error != null) {
-                  return Column(
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
                     children: [
                       Row(children: const [
                         Text(
@@ -44,40 +41,64 @@ class OrderScreen extends StatelessWidget {
                           style: lightPart,
                         ),
                       ]),
-                      Center(
-                        child: Text('An error occured'),
+                      SizedBox(
+                        height: 300,
                       ),
+                      CircularProgressIndicator(),
                     ],
+                  ),
+                );
+              else {
+                if (snapshot.error != null) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Row(children: const [
+                          Text(
+                            "Your ",
+                            style: boldPart,
+                          ),
+                          Text(
+                            "order's",
+                            style: lightPart,
+                          ),
+                        ]),
+                        Center(
+                          child: Text('An error occured'),
+                        ),
+                      ],
+                    ),
                   );
                 } else {
-                  return Consumer<ord.Orders>(
-                    builder: (context, orderData, _) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(children: const [
-                              Text(
-                                "Your ",
-                                style: boldPart,
-                              ),
-                              Text(
-                                "order's",
-                                style: lightPart,
-                              ),
-                            ]),
-                            Container(
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Row(children: const [
+                          Text(
+                            "Your ",
+                            style: boldPart,
+                          ),
+                          Text(
+                            "order's",
+                            style: lightPart,
+                          ),
+                        ]),
+                        Consumer<ord.Orders>(
+                          builder: (context, orderData, _) {
+                            return Container(
                               height: 580,
                               child: ListView.builder(
                                 itemBuilder: (_, i) =>
                                     OrderItem(order: orderData.orders[i]),
                                 itemCount: orderData.orders.length,
                               ),
-                            ),
-                          ],
+                            );
+                          },
                         ),
-                      );
-                    },
+                      ],
+                    ),
                   );
                 }
               }
