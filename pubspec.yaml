@@ -81,6 +81,7 @@ flutter:
     - assets/image/calsoular_images/carsoular_two.jpg
     - assets/image/calsoular_images/carsoular_three.jpg
     - assets/image/calsoular_images/carsoular_four.jpg
+    - assets/image/emptyCart.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

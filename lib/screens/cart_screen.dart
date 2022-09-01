@@ -24,7 +24,7 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(top: 8, right: 8, left: 8),
           child: Column(
             children: [
               Row(children: [
@@ -37,36 +37,93 @@ class CartScreen extends StatelessWidget {
                   style: lightPart,
                 ),
               ]),
-              Card(
-                margin: EdgeInsets.all(20),
-                child: Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Total"),
-                      Spacer(),
-                      Chip(label: Text('\$${cart.total.toStringAsFixed(2)}')),
-                      OrderButton(cart: cart)
-                    ],
-                  ),
-                ),
-              ),
               SizedBox(
                 height: 20,
               ),
-              Expanded(
+              Container(
+                height: 400,
                 child: Card(
-                    child: ListView.builder(
-                  itemCount: cart.items.length,
-                  itemBuilder: (_, i) => BagItem(
-                      id: cart.items.values.toList()[i].id,
-                      price: cart.items.values.toList()[i].price,
-                      quantity: cart.items.values.toList()[i].quantity,
-                      title: cart.items.values.toList()[i].title,
-                      imageUrl: cart.items.values.toList()[i].imageUrl),
-                )),
+                    child: cart.total <= 0
+                        ? Center(
+                            child: Image.asset('assets/image/emptyCart.png'))
+                        : ListView.builder(
+                            itemCount: cart.items.length,
+                            itemBuilder: (_, i) => BagItem(
+                                id: cart.items.values.toList()[i].id,
+                                price: cart.items.values.toList()[i].price,
+                                quantity:
+                                    cart.items.values.toList()[i].quantity,
+                                title: cart.items.values.toList()[i].title,
+                                imageUrl:
+                                    cart.items.values.toList()[i].imageUrl),
+                          )),
               ),
+              Expanded(child: Text("")),
+
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: const Color(0xFFECEFF1),
+                          offset: Offset(0, -5),
+                          blurRadius: 5)
+                    ],
+                    //color: Colors.pink,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20))),
+                padding: EdgeInsets.all(10),
+                height: 150,
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: const Color(0xFFE0E0E0),
+                          borderRadius: BorderRadius.circular(10)),
+                      width: 50,
+                      height: 5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Total Price",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey),
+                        ),
+                        Text(
+                          "₹ ${cart.total.toStringAsFixed(2)}",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey),
+                        )
+                      ],
+                    ),
+                    Expanded(child: Text("")),
+                    OrderButton(cart: cart)
+                  ],
+                ),
+              )
+              // Card(
+              //   margin: EdgeInsets.all(20),
+              //   child: Padding(
+              //     padding: EdgeInsets.all(10),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Text("Total"),
+              //         Spacer(),
+              //         Chip(label: Text('\$${cart.total.toStringAsFixed(2)}')),
+              //         OrderButton(cart: cart)
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -93,8 +150,8 @@ class _OrderButtonState extends State<OrderButton> {
   Widget build(BuildContext context) {
     return _isLoading
         ? CircularProgressIndicator()
-        : TextButton(
-            onPressed: widget.cart.total <= 0
+        : GestureDetector(
+            onTap: widget.cart.total <= 0
                 ? null
                 : () async {
                     setState(() {
@@ -108,6 +165,19 @@ class _OrderButtonState extends State<OrderButton> {
                     });
                     Navigator.of(context).pushNamed(OrderScreen.routeName);
                   },
-            child: Text("ORDER NOW"));
+            child: Container(
+              decoration: BoxDecoration(
+                  color:
+                      widget.cart.total < 1 ? Color(0xFFD6D6D6) : Colors.orange,
+                  borderRadius: BorderRadius.all(Radius.circular(13))),
+              width: double.infinity,
+              height: 60,
+              child: Center(
+                  child: Text('Checkout',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.white))),
+            ));
   }
 }
