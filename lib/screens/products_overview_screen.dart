@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:amazon_lite/provider/cart.dart';
+import 'package:amazon_lite/provider/navigation.dart';
 import 'package:amazon_lite/provider/product.dart';
 import 'package:amazon_lite/provider/products.dart';
 import 'package:amazon_lite/screens/cart_screen.dart';
@@ -55,23 +56,24 @@ class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(CartScreen.routeName);
-        },
-        child: Consumer<Cart>(
-            builder: (_, cart, ch) => Badge(
-                  value: cart.itemQuantity.toString(),
-                  color: Colors.amber,
-                  child: ch!,
-                ),
-            child: Container(
-                child: Icon(
-              Icons.shopping_bag,
-              size: 40,
-              color: Colors.white,
-            ))),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     Provider.of<Navigations>(context, listen: false).gotoCart();
+      //     //Navigator.of(context).pushNamed(CartScreen.routeName);
+      //   },
+      //   child: Consumer<Cart>(
+      //       builder: (_, cart, ch) => Badge(
+      //             value: cart.itemQuantity.toString(),
+      //             color: Colors.amber,
+      //             child: ch!,
+      //           ),
+      //       child: Container(
+      //           child: Icon(
+      //         Icons.shopping_bag,
+      //         size: 40,
+      //         color: Colors.white,
+      //       ))),
+      // ),
 
       drawer: AppDrawer(),
       appBar: AppBar(

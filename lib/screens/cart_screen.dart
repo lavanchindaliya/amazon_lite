@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:amazon_lite/provider/cart.dart';
+import 'package:amazon_lite/provider/navigation.dart';
 import 'package:amazon_lite/provider/orders.dart';
 import 'package:amazon_lite/screens/order_screen.dart';
 import 'package:amazon_lite/widgets/cart_item.dart';
@@ -163,7 +164,8 @@ class _OrderButtonState extends State<OrderButton> {
                     setState(() {
                       _isLoading = false;
                     });
-                    Navigator.of(context).pushNamed(OrderScreen.routeName);
+
+                    //Navigator.of(context).pushNamed(OrderScreen.routeName);
                   },
             child: Container(
               decoration: BoxDecoration(

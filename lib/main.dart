@@ -2,6 +2,7 @@
 
 import 'package:amazon_lite/provider/auth.dart';
 import 'package:amazon_lite/provider/cart.dart';
+import 'package:amazon_lite/provider/navigation.dart';
 import 'package:amazon_lite/provider/orders.dart';
 import 'package:amazon_lite/provider/products.dart';
 import 'package:amazon_lite/screens/authScreen.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
             update: (context, value, previous) =>
                 Orders(value.token, value.userId),
             create: (context) => Orders(null, null)),
+        ChangeNotifierProvider(create: (ctx) => Navigations()),
       ],
       child: Consumer<Auth>(
         builder: (context, auth, child) => MaterialApp(
@@ -86,6 +88,7 @@ class _HomeState extends State<Home> {
     CartScreen()
   ];
   var _currentPageindex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
