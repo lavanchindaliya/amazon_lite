@@ -17,9 +17,9 @@ import 'package:amazon_lite/screens/user_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// void main() {
-//   runApp(MyApp());
-// }
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

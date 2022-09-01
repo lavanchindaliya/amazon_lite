@@ -9,12 +9,14 @@ class BagItem extends StatelessWidget {
   final double price;
   final String title;
   final int quantity;
+  final String imageUrl;
 
   BagItem(
       {required this.id,
       required this.price,
       required this.quantity,
-      required this.title});
+      required this.title,
+      required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +49,9 @@ class BagItem extends StatelessWidget {
       },
       key: ValueKey(id),
       background: Container(
-        padding: EdgeInsets.only(right: 20),
+        padding: const EdgeInsets.only(right: 20),
         alignment: Alignment.centerRight,
-        color: Colors.red,
+        color: Colors.orange,
         child: Icon(
           Icons.delete,
           color: Colors.white,
@@ -58,8 +60,11 @@ class BagItem extends StatelessWidget {
       child: Card(
           margin: EdgeInsets.all(10),
           child: ListTile(
-            leading: CircleAvatar(
-              child: FittedBox(child: Text("\$${price}")),
+            leading: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Image(
+                image: NetworkImage(imageUrl),
+              ),
             ),
             title: Text("${title}"),
             subtitle: Text("\$${price * quantity}"),
