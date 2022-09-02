@@ -60,7 +60,10 @@ class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async =>
             await Provider.of<Auth>(context, listen: false).logout(),
-        child: Icon(Icons.logout),
+        child: Icon(
+          Icons.logout,
+          color: Colors.white,
+        ),
       ),
 
       // floatingActionButton: FloatingActionButton(
@@ -196,7 +199,7 @@ class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
                     ),
                     Row(children: [
                       Text(
-                        "More ",
+                        " More ",
                         style: boldPart,
                       ),
                       Text(

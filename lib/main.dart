@@ -7,14 +7,14 @@ import 'package:amazon_lite/provider/orders.dart';
 import 'package:amazon_lite/provider/products.dart';
 import 'package:amazon_lite/screens/authScreen.dart';
 import 'package:amazon_lite/screens/cart_screen.dart';
-import 'package:amazon_lite/screens/addproduct_screen.dart';
-import 'package:amazon_lite/screens/homeScreen.dart';
+//import 'package:amazon_lite/screens/addproduct_screen.dart';
+//import 'package:amazon_lite/screens/homeScreen.dart';
 import 'package:amazon_lite/screens/order_screen.dart';
 import 'package:amazon_lite/screens/our_products.dart';
-import 'package:amazon_lite/screens/product_detail_screen.dart';
+//import 'package:amazon_lite/screens/product_detail_screen.dart';
 import 'package:amazon_lite/screens/products_overview_screen.dart';
 import 'package:amazon_lite/screens/splashScreen.dart';
-import 'package:amazon_lite/screens/user_product_screen.dart';
+//import 'package:amazon_lite/screens/user_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,12 +25,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<BottomNavigationBarItem> _bottomBarItems = [
-      BottomNavigationBarItem(icon: Icon(Icons.pages)),
-      BottomNavigationBarItem(icon: Icon(Icons.pages)),
-      BottomNavigationBarItem(icon: Icon(Icons.pages)),
-    ];
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
@@ -62,13 +56,13 @@ class MyApp extends StatelessWidget {
                           ? SplashScreen()
                           : AuthScreen(),
                 ),
-          routes: {
-            ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
-            CartScreen.routeName: (ctx) => CartScreen(),
-            OrderScreen.routeName: (ctx) => OrderScreen(),
-            UserProductScreen.routeName: (ctx) => UserProductScreen(),
-            AddEditProduct.routeName: (ctx) => AddEditProduct()
-          },
+          // routes: {
+          //   ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+          //   CartScreen.routeName: (ctx) => CartScreen(),
+          //   OrderScreen.routeName: (ctx) => OrderScreen(),
+          //   UserProductScreen.routeName: (ctx) => UserProductScreen(),
+          //   AddEditProduct.routeName: (ctx) => AddEditProduct()
+          // },
         ),
       ),
     );
@@ -101,11 +95,37 @@ class _HomeState extends State<Home> {
           },
           selectedIndex: _currentPageindex,
           destinations: [
-            NavigationDestination(icon: Icon(Icons.home), label: "home"),
             NavigationDestination(
-                icon: Icon(Icons.dashboard), label: "products"),
-            NavigationDestination(icon: Icon(Icons.backpack), label: 'order'),
-            NavigationDestination(icon: Icon(Icons.local_mall), label: 'cart')
+              icon: Icon(Icons.home),
+              label: "home",
+              selectedIcon: Icon(
+                Icons.home,
+                color: Colors.orange,
+              ),
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.dashboard),
+              label: "products",
+              selectedIcon: Icon(
+                Icons.dashboard,
+                color: Colors.orange,
+              ),
+            ),
+            NavigationDestination(
+                icon: Icon(Icons.backpack),
+                label: 'order',
+                selectedIcon: Icon(
+                  Icons.backpack,
+                  color: Colors.orange,
+                )),
+            NavigationDestination(
+              icon: Icon(Icons.local_mall),
+              label: 'cart',
+              selectedIcon: Icon(
+                Icons.local_mall,
+                color: Colors.orange,
+              ),
+            )
           ]),
       body: screens[_currentPageindex],
     );

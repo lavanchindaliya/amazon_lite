@@ -1,9 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:amazon_lite/provider/cart.dart';
-import 'package:amazon_lite/provider/navigation.dart';
 import 'package:amazon_lite/provider/orders.dart';
-import 'package:amazon_lite/screens/order_screen.dart';
 import 'package:amazon_lite/widgets/cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
