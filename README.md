@@ -1,16 +1,14 @@
 # amazon_lite
 
-amazon_lite is an effort to make a clone of amazon shopping application using FLUTTER SDK for android and ios
+amazon_lite is an effort to make a redesign lite version of amazon shopping application using FLUTTER SDK and FIREBASE
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+- This application use the flutter SDK for FRONTEND and FIREBASE server for BACKEND and AUTHENTICATION
+- All the detials of user is stored in FIREBASE such as ORDER'S, Products's, User's
+- It have a login/signUp screen backed by FIREBASE authentication
+- This could be consider as a complete full fledge ecommerce application if we also add PAYMENT GATEWAY
+- Which is not present right now
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
