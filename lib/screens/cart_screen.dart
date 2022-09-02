@@ -164,6 +164,18 @@ class _OrderButtonState extends State<OrderButton> {
                     setState(() {
                       _isLoading = false;
                     });
+                    showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                              actions: [
+                                TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                    child: Text('ok'))
+                              ],
+                              title: Text("Order Placed"),
+                              content: Text("go to order screens"),
+                            ));
 
                     //Navigator.of(context).pushNamed(OrderScreen.routeName);
                   },

@@ -8,11 +8,17 @@ import 'package:provider/provider.dart';
 
 class ProductGrid extends StatelessWidget {
   final bool _showOnlyFav;
-  ProductGrid(this._showOnlyFav);
+  final bool _topFive;
+  ProductGrid(this._showOnlyFav, this._topFive);
+
   @override
   Widget build(BuildContext context) {
     final productData = Provider.of<Products>(context);
-    final products = (_showOnlyFav) ? productData.favItems : productData.items;
+    final products = (_showOnlyFav)
+        ? productData.favItems
+        : (_topFive)
+            ? productData.topFive
+            : productData.remainingOfTopFive;
 
     return ListView.builder(
         scrollDirection: Axis.horizontal,

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:amazon_lite/provider/auth.dart';
 import 'package:amazon_lite/provider/cart.dart';
 import 'package:amazon_lite/provider/navigation.dart';
 import 'package:amazon_lite/provider/product.dart';
@@ -56,6 +57,12 @@ class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async =>
+            await Provider.of<Auth>(context, listen: false).logout(),
+        child: Icon(Icons.logout),
+      ),
+
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () {
       //     Provider.of<Navigations>(context, listen: false).gotoCart();
@@ -183,7 +190,28 @@ class _ProductOverViewScreenState extends State<ProductOverViewScreen> {
                         // color: Colors.red,
                         height: 234,
                         width: 600,
-                        child: ProductGrid(_showOnlyFav))
+                        child: ProductGrid(_showOnlyFav, true)),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(children: [
+                      Text(
+                        "More ",
+                        style: boldPart,
+                      ),
+                      Text(
+                        'Products',
+                        style: lightPart,
+                      ),
+                    ]),
+                    Container(
+                        // color: Colors.red,
+                        height: 234,
+                        width: 600,
+                        child: ProductGrid(_showOnlyFav, false)),
+                    SizedBox(
+                      height: 10,
+                    ),
                   ],
                 ),
               ),

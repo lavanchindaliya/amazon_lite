@@ -65,7 +65,8 @@ class OrderScreen extends StatelessWidget {
                           ),
                         ]),
                         Center(
-                          child: Text('An error occured'),
+                          child: Image(
+                              image: AssetImage('assets/image/nodata.jpg')),
                         ),
                       ],
                     ),

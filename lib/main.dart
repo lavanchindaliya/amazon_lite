@@ -53,9 +53,9 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(primarySwatch: Colors.orange, fontFamily: 'Lato'),
           home: auth.isAuthenticated
               ? Home()
-              :
-              //ProductOverViewScreen()
-              FutureBuilder(
+
+              //? ProductOverViewScreen()
+              : FutureBuilder(
                   future: auth.tryAutoLogin(),
                   builder: (context, snapshot) =>
                       snapshot.connectionState == ConnectionState.waiting
@@ -83,6 +83,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<Widget> screens = [
     ProductOverViewScreen(),
+    //UserProductScreen(),
     OurProducts(),
     OrderScreen(),
     CartScreen()

@@ -82,7 +82,8 @@ flutter:
     - assets/image/calsoular_images/carsoular_three.jpg
     - assets/image/calsoular_images/carsoular_four.jpg
     - assets/image/emptyCart.png
-    
+    - assets/image/monkey.gif    
+    - assets/image/nodata.jpg    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

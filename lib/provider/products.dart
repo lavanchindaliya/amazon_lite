@@ -11,11 +11,21 @@ class Products with ChangeNotifier {
   String? userId;
   Products(this.authToken, this.userId);
   List<Product> _items = [];
+  List<Product> _topFive = [];
+  List<Product> _remainingOfTopFive = [];
 
   var _showFavoratesOnly = false;
 
   List<Product> get items {
     return [..._items];
+  }
+
+  List<Product> get topFive {
+    return [..._topFive];
+  }
+
+  List<Product> get remainingOfTopFive {
+    return [..._remainingOfTopFive];
   }
 
   List<Product> get favItems {
@@ -61,6 +71,8 @@ class Products with ChangeNotifier {
                     : favorateData[prodId] ?? false));
       });
       _items = loadedProducts;
+      _topFive = _items.take(4).toList();
+      _remainingOfTopFive = _items.getRange(4, _items.length).toList();
       notifyListeners();
     } catch (error) {
       print(error);
