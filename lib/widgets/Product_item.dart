@@ -50,7 +50,8 @@ class ProductItem extends StatelessWidget {
                   topLeft: Radius.circular(5), topRight: Radius.circular(5)),
               child: Hero(
                 tag: product.id,
-                child: Image(
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/image/placeHolder.png'),
                   fit: BoxFit.cover,
                   height: 80,
                   width: 120,
